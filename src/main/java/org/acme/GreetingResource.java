@@ -4,24 +4,27 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+//import javax.ws.rs.PUT;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
+//import javax.ws.rs.Encoded;
 import javax.ws.rs.Path;
+//import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+//import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
-
 import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.Set;
 
 
+/**
+ * Clase controlller.
+ */
 @Path("/api")
 public class GreetingResource {
 
@@ -36,9 +39,9 @@ public class GreetingResource {
     private Set<Documento> documentos = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
     public GreetingResource(){
-        documentos.add(new Documento("Informe pelicano", "DOCX", false));
-        documentos.add(new Documento("Cartas sociales", "XML", true));
-        documentos.add(new Documento("Extensiones y aplicaciones de controladores PIC", "PDF", false));
+        documentos.add(new Documento(1,"Informe pelicano", "DOCX", false));
+        documentos.add(new Documento(2,"Cartas sociales", "XML", true));
+        documentos.add(new Documento(3,"Extensiones y aplicaciones de controladores PIC", "PDF", false));
     }
 
     // http://localhost:8080/api/hello
@@ -97,9 +100,6 @@ public class GreetingResource {
         return Response.ok(this.documentos).build();
     }
 
-    // 
-
-
-
+    // http://localhost:8080/api/documentos/1
 
 }
