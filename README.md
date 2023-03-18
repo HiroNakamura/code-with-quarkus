@@ -48,6 +48,30 @@ Si desea obtener más información sobre la creación de ejecutables nativos, co
 
 ## Código proporcionado
 
+**Probando con CURL**
+```bash
+curl -X GET -i http://localhost:8080/api/hello
+```
+
+```bash
+curl -X GET -i http://localhost:8080/api/programador
+```
+
+```bash
+curl -X GET -i http://localhost:8080/api/documentos
+```
+
+```bash
+curl -X POST -i http://localhost:8080/api/documentos --data '{"id":4,"nombre":"El león y el ratón","extension":"PDF","borrable":true}'
+```
+
+```bash
+curl -X DELETE -i http://localhost:8080/api/documentos --data '{"id":4,"nombre":"El león y el ratón","extension":"PDF","borrable":true}'
+```
+
+
+
+
 ### RESTEasy Reactivo
 
 Inicie fácilmente sus servicios web RESTful reactivos

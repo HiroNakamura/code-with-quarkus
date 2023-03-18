@@ -1,35 +1,26 @@
-package org.acme;
+package org.acme.controller;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-//import javax.ws.rs.PUT;
 import javax.inject.Inject;
-import javax.ws.rs.DELETE;
-//import javax.ws.rs.Encoded;
-import javax.ws.rs.Path;
-//import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-//import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.acme.MyConfig;
+import org.acme.model.Documento;
+import org.acme.resource.GreetingResource;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.jboss.logging.Logger;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 
-
 /**
- * Clase controlller.
+ * Clase controller.
  */
-@Path("/api")
-public class GreetingResource {
+public class GreetingController implements GreetingResource {
+    private final static Logger LOG = Logger.getLogger(GreetingController.class);
 
-    private final static Logger LOG = Logger.getLogger(GreetingResource.class);
-
+    
     @ConfigProperty(name="greeting.mensaje")
     String mensaje;
 
@@ -38,16 +29,16 @@ public class GreetingResource {
 
     private Set<Documento> documentos = Collections.newSetFromMap(Collections.synchronizedMap(new LinkedHashMap<>()));
 
-    public GreetingResource(){
+    public GreetingController(){
         documentos.add(new Documento(1,"Informe pelicano", "DOCX", false));
         documentos.add(new Documento(2,"Cartas sociales", "XML", true));
         documentos.add(new Documento(3,"Extensiones y aplicaciones de controladores PIC", "PDF", false));
     }
 
+
+
     // http://localhost:8080/api/hello
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    @Path("/hello")
+    @Override
     public String hello() {
         LOG.info(mensaje);
         if(myConfig.isTrue()){
@@ -57,9 +48,7 @@ public class GreetingResource {
     }
 
     // http://localhost:8080/api/programador
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/programador")
+    @Override
     public Response getProgramador(){
         Map<String,Object> mapa = new HashMap<>();
         mapa.put("nombre", "Fernando");
@@ -71,18 +60,14 @@ public class GreetingResource {
     }
 
     // http://localhost:8080/api/documentos
-    @GET 
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/documentos")
+    @Override
     public Response getDocumentos(){
         LOG.info("Recuperamos los documentos");
         return Response.ok(this.documentos).build();
     }
 
     // http://localhost:8080/api/documentos
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/documentos")
+    @Override
     public Response addDocumento(Documento documento) {
         LOG.info("Agregamos: "+documento);
         this.documentos.add(documento);
@@ -91,15 +76,10 @@ public class GreetingResource {
     }
 
     // http://localhost:8080/api/documentos
-    @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/documentos")
+    @Override
     public Response deleteDocumento(Documento documento) {
         LOG.info("Eliminamos: "+documento);
         this.documentos.removeIf(existingDoc -> existingDoc.nombre.contentEquals(documento.nombre));
         return Response.ok(this.documentos).build();
     }
-
-    // http://localhost:8080/api/documentos/1
-
 }

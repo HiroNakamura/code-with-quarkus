@@ -1,4 +1,4 @@
-package org.acme;
+package org.acme.model;
 
 import javax.json.bind.annotation.JsonbPropertyOrder;
 
